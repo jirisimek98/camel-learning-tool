@@ -1,4 +1,4 @@
-package org.example;
+package org.jsimek.cameltutorial;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.builder.RouteBuilder;
@@ -16,6 +16,8 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import org.jboss.logging.Logger;
+
 
 @Path("/routes")
 @ApplicationScoped
@@ -24,9 +26,12 @@ public class RouteResource {
     @Inject
     CamelContext context;
 
+    private static final Logger LOGGER = Logger.getLogger(RouteResource.class);
+
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     public Response addRoute(String javaSource) {
+        LOGGER.info(javaSource);
         try {
             System.setProperty("java.class.path", getClassPath());
             CompilationUnit compilationUnit = CompilationUnit.input();
