@@ -21,7 +21,7 @@ public class LogWebSocket {
     public void onOpen(Session session) {
 
         sessions.add(session);
-        session.getAsyncRemote().sendText("Hewwwo, everynyan");
+
     }
 
     @OnClose
