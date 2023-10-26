@@ -7,6 +7,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 
 import org.apache.camel.CamelContext;
+import org.apache.camel.component.file.remote.FtpComponent;
 import org.apache.camel.component.kafka.KafkaComponent;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.AdminClientConfig;

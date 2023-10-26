@@ -1,8 +1,56 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReconnectingWebSocket from 'reconnecting-websocket';
+import { useLocation } from 'react-router-dom';
 
 function Terminal() {
   const [logs, setLogs] = useState('');
+  const location = useLocation();
+
+  useEffect(() => {
+    clearRoutes();
+    flushServices();
+    // Check if the current path is '/tutorials/kafka'
+    if (location.pathname === '/tutorials/kafka') {
+      // Send a request to your backend to deploy resources
+      deployKafka();
+    }
+  }, [location.pathname]);  // Re-run this effect whenever the pathname changes
+
+  const deployKafka = async () => {
+    try {
+      let response = await fetch('http://localhost:8080/services/deployKafka', {
+        method: 'POST',
+      });
+      let data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error deploying resources:", error);
+    }
+  };
+
+  const clearRoutes = async () => {
+    try {
+      let response = await fetch('http://localhost:8080/routes/delete', {
+        method: 'DELETE',
+      });
+      let data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error deleting routes:", error);
+    }
+  };
+
+  const flushServices = async () => {
+    try {
+      let response = await fetch('http://localhost:8080/services/flush', {
+        method: 'DELETE',
+      });
+      let data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error("Error deleting resources:", error);
+    }
+  };
 
   useEffect(() => {
     const options = {

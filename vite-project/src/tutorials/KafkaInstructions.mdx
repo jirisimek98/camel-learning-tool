@@ -1,0 +1,44 @@
+import CodeBlock from '../components/CodeBlock';
+
+# Apache Camel Kafka Tutorial
+
+## Introduction
+Apache Kafka is a highly-scalable and fault-tolerant stream processing platform that enables you to build real-time streaming applications. It's designed to handle data streams from multiple sources and deliver them to multiple consumers. Kafka excels in scenarios where high throughput, reliable delivery, and horizontal scalability are required.
+
+The [Camel Kafka component](https://camel.apache.org/components/latest/kafka-component.html) facilitates interactions between your Camel application and Kafka clusters. It allows your Camel routes to produce messages to Kafka topics and consume messages from Kafka topics in a highly configurable manner. Refer to the component documentation for a comprehensive overview and configuration options.
+
+
+## Objective
+In this exercise, you will be creating two Apache Camel routes within the given `configure` method of the `RouteBuilder` class. The first route will produce messages to an Apache Kafka topic at regular intervals, and the second route will consume those messages from the Kafka topic.
+
+## Requirements
+
+### 1. **Message Production to Kafka:**
+   - Create a route named `FromTimer2Kafka`.
+   - The route should be triggered every 10 seconds, with an initial delay of 10 seconds.
+   - Each message produced should have a body containing a string: "Message #", followed by the counter of the number of times the timer has triggered. Use Camel's built-in exchange property `CamelTimerCounter` for this purpose.
+   - Send the message to a Kafka topic named `test`.
+   - Log a message confirming the successful sending of the message to the Kafka topic, along with the message body.
+
+### 2. **Message Consumption from Kafka:**
+   - Create a route named `FromKafka2Seda`.
+   - This route should consume messages from the Kafka topic named `test`.
+   - Log the body of the received message.
+   - Forward the received message to a SEDA queue named `kafka-messages`.
+
+
+
+<CodeBlock code={`
+  // produces messages to kafka
+  from("timer:foo?period=10000&delay=10000")
+          .routeId("FromTimer2Kafka")
+          .setBody().simple("Message #" + "$" + "{exchangeProperty.CamelTimerCounter}")
+          .to("kafka:test")
+          .log("Message correctly sent to the topic! : \\"" + "$" + "{body}" + "\\"");
+
+  // kafka consumer
+  from("kafka:test")
+          .routeId("FromKafka2Seda")
+          .log("Received : \\"" + "$" + "{body}" + "\\"")
+          .to("seda:kafka-messages");
+`} />

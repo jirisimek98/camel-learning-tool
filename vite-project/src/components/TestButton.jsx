@@ -11,7 +11,13 @@ function TestButton() {
     
         switch(location.pathname) {
           case '/tutorials/kafka':
-            endpoint = 'http://localhost:8080/test/BadTest';
+            endpoint = 'http://localhost:8080/test/KafkaTest';
+            break;
+          case '/tutorials/httpLog':
+            endpoint = 'http://localhost:8080/test/HttpLogTest';
+            break;
+          case '/tutorials/httpLogEndpoint':
+            endpoint = 'http://localhost:8080/test/HttpLogEndpointTest';
             break;
         }
 
@@ -25,7 +31,7 @@ function TestButton() {
           let data = await response.text();
           console.log(data);
         } catch (error) {
-          console.error("Error deleting routes:", error);
+          console.error("Error running tests:", error);
         }
       };
 

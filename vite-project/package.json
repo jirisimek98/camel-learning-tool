@@ -19,6 +19,8 @@
     "@codingame/monaco-vscode-textmate-service-override": "~1.82.4",
     "@codingame/monaco-vscode-theme-defaults-default-extension": "~1.82.4",
     "@codingame/monaco-vscode-theme-service-override": "~1.82.4",
+    "@mdx-js/react": "^3.0.0",
+    "@mdx-js/rollup": "^3.0.0",
     "axios": "^1.5.1",
     "bootstrap": "^5.3.2",
     "monaco-editor": "~0.43.0",

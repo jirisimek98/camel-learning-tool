@@ -8,6 +8,8 @@ import camels from './assets/camels.png'
 import ServiceSwitcher from './components/ServiceSwitcher';
 import Terminal from './components/Terminal';
 import TestButton from './components/TestButton';
+import TutorialDescription from './components/TutorialDescription';
+import KafkaInstructions from './tutorials/KafkaInstructions.mdx';
 
 function App() {
   const [javaCode, setJavaCode] = useState('');
@@ -72,7 +74,8 @@ function App() {
                           </Dropdown.Toggle>
                           <Dropdown.Menu>
                               <Dropdown.Item href="/tutorials/kafka">Kafka</Dropdown.Item>
-                              <Dropdown.Item href="/tutorials/tutorial2">Tutorial 2</Dropdown.Item>
+                              <Dropdown.Item href="/tutorials/httpLog">HTTP Log</Dropdown.Item>
+                              <Dropdown.Item href="/tutorials/httpLogEndpoint">HTTP Log (Endpoint DSL)</Dropdown.Item>
                           </Dropdown.Menu>
                       </Dropdown>
                   </Nav>
@@ -85,26 +88,32 @@ function App() {
                           <CodeEditor setJavaCode={setJavaCode}/>
                           <Button onClick={sendJavaCode} style={{ margin: '10px' }}>Submit route</Button>
                           <Routes>
-                            <Route path="/tutorials/kafka" element={<TestButton/>}/>
+                            <Route path="/tutorials/*" element={<TestButton/>}/>
                           </Routes>
                           <Button variant='danger' onClick={clearContext} style={{ margin: '10px' }}>Clear context</Button>
                           <Container id='terminal-container'>
                               <Terminal/>
                           </Container>
                       </Col>
-
-                      <Col xs={4}>
-                          <Row className="height-25vh">
-                            <h2>Camel Playground</h2>
-                            <div>You can play and shit</div>
-                          </Row>
-                          <Row>
-                            <Routes>
-                              
-                            </Routes>
-                            <ServiceSwitcher/>
-                          </Row>
-                      </Col>
+                      
+                      <Routes>
+                        <Route path="/playground" element={
+                          <Col xs={4}>
+                            <Row className="height-35vh">
+                              <h2>Camel Playground</h2>
+                              <div>You can play and shit</div>
+                            </Row>
+                            <Row>
+                              <ServiceSwitcher/>
+                            </Row>
+                          </Col>
+                        }/>
+                        <Route path="tutorials/*" element={
+                          <Col xs={4}>
+                            <KafkaInstructions/>
+                          </Col>
+                        }/>
+                      </Routes>
                   </Row>
               </Col>
           </Row>

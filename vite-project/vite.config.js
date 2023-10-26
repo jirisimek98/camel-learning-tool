@@ -1,12 +1,13 @@
 import { defineConfig, transformWithEsbuild } from 'vite'
 import react from '@vitejs/plugin-react'
+import mdx from '@mdx-js/rollup';
 
 import * as fs from 'fs'
 import url from 'url';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), {
+  plugins: [mdx(), react(), {
     name: 'load+transform-js-files-as-jsx',
     async transform(code, id) {
       if (!id.match(/src\/.*\.js$/)) {
