@@ -1,0 +1,47 @@
+import CodeBlock from '../components/CodeBlock.jsx'
+
+# Apache Camel Processor Exercise
+
+## Introduction
+In this exercise, you'll delve into the usage of Processors within Apache Camel. Processors are vital components in Camel routes, allowing you to access and modify messages within the route. You'll be creating a simple Processor defined directly within the route using a lambda expression, suitable for this lightweight transformation task. In more complex cases, it's advisable to define Processors in separate classes for better organization and reusability.
+
+Understanding how to utilize Processors is fundamental for creating dynamic and interactive routes in Camel.
+
+- [Camel Processor documentation](https://camel.apache.org/manual/latest/processor.html)
+- [Camel Direct component documentation](https://camel.apache.org/components/latest/direct-component.html)
+
+## Objective
+Your task is to create two Camel routes within the provided `configure` method of the `RouteBuilder` class. The first route should initiate a message, process it to transform its content, and send it to a second route. The second route should log the processed message body.
+
+## Requirements
+
+### 1. **Message Initiation**:
+   - Create a route that starts from a direct endpoint named `processorStart`.
+
+### 2. **Message Processing**:
+   - Define a simple Processor directly within the route using a lambda expression.
+   - Within the Processor:
+     - Access the message from the `exchange` object.
+     - Retrieve the message body, ensuring it's treated as a `String`.
+     - Transform the `String` message body to uppercase.
+     - Update the message body with the transformed content.
+
+### 3. **Message Forwarding**:
+   - Send the processed message to a direct endpoint named `processorResult`.
+
+### 4. **Result Logging**:
+   - Create a second route that starts from the direct endpoint `processorResult`.
+   - Log the body of the processed message.
+
+
+<CodeBlock code={`
+            from("direct:processorStart")
+                     .process(exchange -> {
+                        String body = exchange.getIn().getBody(String.class);
+                        exchange.getIn().setBody(body.toUpperCase());
+                     })
+                     .to("direct:processorResult");
+
+            from("direct:processorResult")
+                     .log("${"${body}"}");
+`} />

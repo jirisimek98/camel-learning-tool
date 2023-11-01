@@ -2,8 +2,6 @@ package org.jsimek.cameltutorial;
 
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.reactive.RestPath;
-import org.jsimek.cameltutorial.tests.BadTest;
-import org.jsimek.cameltutorial.tests.GoodTest;
 import org.jsimek.cameltutorial.utils.TestRunner;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -15,11 +13,11 @@ import javax.ws.rs.core.Response;
 @ApplicationScoped
 public class TestResource {
 
-    private static final org.jboss.logging.Logger LOGGER = Logger.getLogger(TestResource.class);
+    private static final Logger LOGGER = Logger.getLogger(TestResource.class);
 
     @GET
     public Response runTest(@RestPath String test) {
-        LOGGER.info("Bezim test jmenem " + test);
+        LOGGER.info("Running tests: " + test);
         try {
             Class c = Class.forName("org.jsimek.cameltutorial.tests." + test);
             TestRunner.runTestClass(c);

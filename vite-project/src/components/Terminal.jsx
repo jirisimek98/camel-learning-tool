@@ -1,20 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ReconnectingWebSocket from 'reconnecting-websocket';
 import { useLocation } from 'react-router-dom';
+import { AnsiUp } from 'ansi_up';
 
 function Terminal() {
   const [logs, setLogs] = useState('');
   const location = useLocation();
+  const ansiUp = new AnsiUp();
+
+  const convertAnsiToHTML = (ansiText) => {
+    return ansiUp.ansi_to_html(ansiText);
+  }
 
   useEffect(() => {
     clearRoutes();
     flushServices();
-    // Check if the current path is '/tutorials/kafka'
     if (location.pathname === '/tutorials/kafka') {
-      // Send a request to your backend to deploy resources
       deployKafka();
     }
-  }, [location.pathname]);  // Re-run this effect whenever the pathname changes
+  }, [location.pathname]);
 
   const deployKafka = async () => {
     try {
@@ -61,7 +65,7 @@ function Terminal() {
     const ws = new ReconnectingWebSocket('ws://localhost:8080/ws/logs', [], options);
 
     ws.addEventListener('message', (event) => {
-      setLogs(prevLogs => prevLogs + event.data);
+      setLogs(prevLogs => prevLogs + convertAnsiToHTML(event.data));
     });
 
     return () => ws.close();
@@ -96,7 +100,7 @@ function Terminal() {
       ref={terminalRef}
       style={{
         width: '100%',
-        height: '400px',
+        height: '100%',
         overflowY: 'scroll',
         backgroundColor: '#000',
         color: '#fff',
@@ -104,9 +108,8 @@ function Terminal() {
         padding: '1em',
         whiteSpace: 'pre-wrap'
       }}
-    >
-      {logs}
-    </div>
+      dangerouslySetInnerHTML={{ __html: logs }}
+    />  
   );
 }
 

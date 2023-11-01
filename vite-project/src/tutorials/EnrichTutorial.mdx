@@ -1,0 +1,42 @@
+import CodeBlock from '../components/CodeBlock'
+
+# Apache Camel Enrich EIP Routing Exercise
+
+## Introduction
+In this exercise, you'll be exploring the Enrich Enterprise Integration Pattern (EIP) within Apache Camel. The Enrich EIP allows you to replace the message content with a resource, or enrich the message by merging it with a resource. In this scenario, we'll be using the `http` component to interact with an external HTTP service and the `direct` component to establish internal communication between Camel routes.
+
+Understanding the Enrich EIP is fundamental for scenarios where you need to augment a message with information from external resources. This exercise will provide practical exposure to implementing the Enrich EIP in a Camel route.
+
+- [Camel Enrich EIP documentation](https://camel.apache.org/components/latest/eips/enrich.html)
+- [Camel HTTP component documentation](https://camel.apache.org/components/latest/http-component.html)
+- [Camel Direct component documentation](https://camel.apache.org/components/latest/direct-component.html)
+
+## Objective
+Your task is to create two Camel routes within the provided `configure` method of the `RouteBuilder` class. The first route should initiate a message, enrich it by invoking an external HTTP service, and send it to a second route. The second route should log the enriched message body.
+
+## Requirements
+
+### 1. **Message Initiation**:
+   - Create a route that starts from a direct endpoint named `enrichStart`.
+   - Set a header named `CamelHttpQuery` with a value containing a query parameter `message` equal to the message body.
+
+### 2. **Message Enrichment**:
+   - Enrich the message by sending a request to an external HTTP service at `http://localhost:8080/alter`.
+   - Ensure the query parameter set earlier is included in the HTTP request.
+
+### 3. **Message Forwarding**:
+   - Send the enriched message to a direct endpoint named `enrichResult`.
+
+### 4. **Result Logging**:
+   - Create a second route that starts from the direct endpoint `enrichResult`.
+   - Log the body of the enriched message.
+
+<CodeBlock code={`
+            from("direct:enrichStart")
+                  .setHeader("CamelHttpQuery", simple("message=${"${body}"}"))
+                  .enrich("http://localhost:8080/alter")
+                  .to("direct:enrichResult");
+
+               from("direct:enrichResult")
+                  .log("${"${body}"}");
+`} />

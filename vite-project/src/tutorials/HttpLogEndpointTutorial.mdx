@@ -1,0 +1,31 @@
+import CodeBlock from '../components/CodeBlock.jsx'
+
+# Apache Camel HTTP to Log Routing Exercise with Endpoint DSL
+
+## Introduction
+In this exercise, you will be working with Camel's Endpoint DSL alongside the `platform-http` and `log` components. Endpoint DSL is a type-safe way to configure endpoints, which is an evolution from the URI string-based approach used in the Java DSL. Endpoint DSL provides a more fluent, readable, and auto-completable coding experience. Understanding the Endpoint DSL is essential as it provides a modern and type-safe way to configure endpoints, making your Camel routes more robust and easier to maintain.
+
+- [Camel Endpoint DSL documentation](https://camel.apache.org/manual/latest/Endpoint-dsl.html)
+- [Camel Platform-HTTP component documentation](https://camel.apache.org/components/latest/platform-http-component.html)
+- [Camel Log component documentation](https://camel.apache.org/components/latest/log-component.html)
+
+## Objective
+Your task is to create a Camel route within the provided `configure` method of the `CamelRoute` class, which extends `EndpointRouteBuilder`. This route will expose an HTTP endpoint at `/camel/hello`, which when accessed, responds with a message "Camel HTTP Endpoint DSL" and logs the message, using the Endpoint DSL for configuration.
+
+## Requirements
+
+### 1. **HTTP Endpoint Exposure**:
+   - Create a route that starts from an HTTP endpoint with the path `/camel/helloEndpoint` using the `platformHttp` method provided by the Endpoint DSL.
+   
+### 2. **Message Crafting**:
+   - Set the message body to the string "Camel HTTP Endpoint DSL".
+   
+### 3. **Logging**:
+   - Send the message to a log endpoint named `hi`, configured to not show the Exchange Pattern and the Body Type in the log message, using the Endpoint DSL to configure the log endpoint.
+
+
+<CodeBlock code={`
+            from(platformHttp("/camel/helloEndpoint"))
+                .setBody().simple("Camel HTTP Endpoint DSL")
+                .to(log("hi").showExchangePattern(false).showBodyType(false));
+`} />

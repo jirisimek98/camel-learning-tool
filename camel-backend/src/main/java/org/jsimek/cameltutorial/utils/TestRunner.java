@@ -14,9 +14,9 @@ public class TestRunner {
             System.err.println(failure.toString());
         }
         if (result.wasSuccessful()) {
-            LOGGER.info("Great success");
+            LOGGER.info("\u001B[32m" + "TESTS PASSED SUCCESSFULLY" + "\u001B[0m");
         } else {
-            LOGGER.error("Tests failed!");
+            LOGGER.error("\u001B[31m" + "TESTS FAILED!" + "\u001B[0m");
         }
     }
 }

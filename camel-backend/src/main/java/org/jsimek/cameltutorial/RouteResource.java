@@ -47,11 +47,10 @@ public class RouteResource {
 
             RouteBuilder builder = (RouteBuilder) compiledClass.getDeclaredConstructor().newInstance();
             context.addRoutes(builder);
-            LOGGER.info("Route added successfully");
+            LOGGER.info("\u001B[32m" + "Route added successfully" + "\u001B[0m");
             return Response.ok().build();
         } catch (Exception e) {
-            LOGGER.error("Bad class:" + javaSource);
-            LOGGER.error("failed compilation", e);
+            LOGGER.error("\u001B[31m" + "Route compilation failed" + "\u001B[0m", e);
             e.printStackTrace();
             return Response.status(Response.Status.BAD_REQUEST).entity(e.getMessage()).build();
         }
@@ -74,7 +73,7 @@ public class RouteResource {
                 LOGGER.error("Error removing the route.", e);
             }
         }
-        LOGGER.info("Routes removed");
+        LOGGER.info("\u001B[32m" + "Routes removed" + "\u001B[0m");
         return Response.ok().build();
     }
 }

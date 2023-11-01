@@ -19,6 +19,12 @@ function TestButton() {
           case '/tutorials/httpLogEndpoint':
             endpoint = 'http://localhost:8080/test/HttpLogEndpointTest';
             break;
+          case '/tutorials/enrich':
+              endpoint = 'http://localhost:8080/test/EnrichRouteTest';
+              break;
+          case '/tutorials/processor':
+            endpoint = 'http://localhost:8080/test/ProcessorTest';
+            break;
         }
 
         console.log("endpoint: " + endpoint)

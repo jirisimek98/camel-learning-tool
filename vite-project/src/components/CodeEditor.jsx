@@ -1,6 +1,7 @@
 import React, { createRef, useEffect, useRef, useState } from 'react';
 import { createCamelEditor, createUrl, createWebSocketAndStartClient, performInit } from '../common';
 import { ExtensionHostKind, registerExtension } from 'vscode/extensions';
+import { useLocation } from 'react-router-dom';
 
 import javaSytaxUrl from  '../assets/java.tmLanguage.json?url'
 
@@ -26,6 +27,31 @@ const CodeEditor = ({ setJavaCode }) => {
         }
     }`.trim()
 
+  const endpointTutorial = `import org.apache.camel.builder.endpoint.EndpointRouteBuilder;
+
+  public class RouteBuilderImpl extends EndpointRouteBuilder {
+  
+      @Override
+      public void configure() throws Exception {
+  
+          //Write your route here
+  
+      }
+  }`.trim()
+
+  const location = useLocation();
+  let content;
+
+  useEffect (() => {
+    switch(location.pathname) {
+      case '/tutorials/httpLogEndpoint':
+        content = endpointTutorial;
+        break;
+      default:
+        content = defaultContent;
+    }
+  })
+
   let camelLspSocket;
   let javaLSPSocket;
 
@@ -37,7 +63,7 @@ const CodeEditor = ({ setJavaCode }) => {
         await performInit(true)
         const { editor } = await createCamelEditor({
           htmlElement: ref.current,
-          content: defaultContent
+          content: content
         })
 
         editorRef.current = editor

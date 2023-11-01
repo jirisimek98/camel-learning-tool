@@ -20,7 +20,7 @@ public class HttpLogTest {
 
         await().atMost(10L, TimeUnit.SECONDS).pollDelay(1, TimeUnit.SECONDS).until(() -> {
             String log = new String(Files.readAllBytes(Paths.get("target/quarkus.log")), StandardCharsets.UTF_8);
-            return log.contains("Camel runs bro");
+            return log.contains("Camel HTTP Java DSL");
         });
     }
 

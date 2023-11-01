@@ -1,0 +1,31 @@
+import CodeBlock from '../components/CodeBlock';
+
+# Apache Camel HTTP to Log Routing Exercise
+
+## Introduction
+In this exercise, we'll delve into two Camel components: `platform-http` and `log`. The `platform-http` component allows you to expose HTTP endpoints, which can be accessed via standard HTTP methods. On the other hand, the `log` component is used to log messages in Camel routes. Understanding these components is crucial as they form the basis for many integration scenarios in Camel applications.
+
+- [Camel Platform-HTTP component documentation](https://camel.apache.org/components/latest/platform-http-component.html)
+- [Camel Log component documentation](https://camel.apache.org/components/latest/log-component.html)
+
+## Objective
+Your task is to create a Camel route within the provided `configure` method of the `RouteBuilder` class. This route will expose an HTTP endpoint at `/camel/hello`, which when accessed, responds with a message "Camel HTTP Java DSL" and logs the message.
+
+## Requirements
+
+### 1. **HTTP Endpoint Exposure**:
+   - Create a route that starts from an HTTP endpoint with the path `/camel/hello`.
+   - The HTTP endpoint should be exposed using the `platform-http` component.
+
+### 2. **Message Crafting**:
+   - Set the message body to the string "Camel HTTP Java DSL".
+
+### 3. **Logging**:
+   - Send the message to a log endpoint named `hi`.
+   - Configure the log endpoint to not show the Exchange Pattern and the Body Type in the log message.
+
+<CodeBlock code={`
+            from("platform-http:/camel/hello")
+                  .setBody().simple("Camel HTTP Java DSL")
+                  .to("log:hi?showExchangePattern=false&showBodyType=false");
+`} />

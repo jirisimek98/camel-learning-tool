@@ -64,19 +64,9 @@ public class ServiceResource {
 
             long startTime = System.currentTimeMillis();
             long timeout = 60000;
-
-//            while (!isKafkaReady(kafka)) {
-//                if (System.currentTimeMillis() - startTime > timeout) {
-//                    LOGGER.error("Timeout waiting for Kafka to start");
-//                    return false;
-//                }
-//
-//                Thread.sleep(1000);
-//            }
             KafkaComponent kafkaComponent = (KafkaComponent) context.getComponent("kafka");
-            LOGGER.info(kafkaComponent);
             kafkaComponent.getConfiguration().setBrokers(kafka.bootstrapServers());
-            LOGGER.info("Kafka bootstrap servers: " + kafka.bootstrapServers());
+            LOGGER.info("\u001B[32m" + "Kafka deployed successfully:" + "\u001B[0m" + kafka.bootstrapServers());
             context.getGlobalOptions().put("camel.component.kafka.brokers", kafka.bootstrapServers());
             context.getGlobalOptions().put("kafka.topic.name", "test");
         } catch (Exception e) {
@@ -125,18 +115,8 @@ public class ServiceResource {
             LocalPostgreSQL postgre = ServiceFactory.create(LocalPostgreSQL.class);
             postgre.beforeAll(null);
             registeredServices.put("Postgre", postgre);
-            LOGGER.info("PostgreSQL details: " + postgre.hostname() + ":"+ postgre.port());
+            LOGGER.info("\u001B[32m" + "Postgre deployed successfully:" + "\u001B[0m" + postgre.hostname() + ":"+ postgre.port());
 
-            long startTime = System.currentTimeMillis();
-            long timeout = 60000;
-
-//            while (!isPostgreReady(postgre)) {
-//                if (System.currentTimeMillis() - startTime > timeout) {
-//                    LOGGER.error("Timeout waiting for PostgreSQL to start");
-//                    return false;
-//                }
-//                Thread.sleep(1000);
-//            }
         } catch (Exception e) {
             LOGGER.error("No DB 4 u, mf\n" + e);
             return false;
@@ -174,7 +154,7 @@ public class ServiceResource {
             FTP ftp = ServiceFactory.create(FTP.class);
             ftp.beforeAll(null);
             registeredServices.put("FTP", ftp);
-            LOGGER.info("FTP server details: " + ftp.host() + ":" + ftp.port());
+            LOGGER.info("\u001B[32m" + "FTP deployed successfully:" + "\u001B[0m" + ftp.host() + ":" + ftp.port());
 
         } catch (Exception e) {
             LOGGER.error("No DB 4 u, mf\n" + e);
@@ -205,11 +185,12 @@ public class ServiceResource {
     @Path("/flush")
     public boolean destroy() {
         LOGGER.info("triggered flush");
-        for (Service service : registeredServices.values() ) {
+        for (String service : registeredServices.keySet() ) {
             try {
+                Service s = registeredServices.get(service);
                 registeredServices.remove(service);
-                service.afterAll(null);
-                LOGGER.info("Destroying: " + service.toString());
+                s.afterAll(null);
+                LOGGER.info("Destroying: " + service);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
