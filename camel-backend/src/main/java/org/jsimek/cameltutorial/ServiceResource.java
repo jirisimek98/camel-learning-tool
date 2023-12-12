@@ -61,16 +61,13 @@ public class ServiceResource {
             Kafka kafka = ServiceFactory.create(Kafka.class);
             kafka.beforeAll(null);
             registeredServices.put("Kafka", kafka);
-
-            long startTime = System.currentTimeMillis();
-            long timeout = 60000;
             KafkaComponent kafkaComponent = (KafkaComponent) context.getComponent("kafka");
             kafkaComponent.getConfiguration().setBrokers(kafka.bootstrapServers());
             LOGGER.info("\u001B[32m" + "Kafka deployed successfully:" + "\u001B[0m" + kafka.bootstrapServers());
             context.getGlobalOptions().put("camel.component.kafka.brokers", kafka.bootstrapServers());
             context.getGlobalOptions().put("kafka.topic.name", "test");
         } catch (Exception e) {
-            LOGGER.error("No Kafka 4 u, mf\n" + e);
+            LOGGER.error("No Kafka 4 u\n" + e);
             return false;
         }
         return true;
@@ -118,7 +115,7 @@ public class ServiceResource {
             LOGGER.info("\u001B[32m" + "Postgre deployed successfully:" + "\u001B[0m" + postgre.hostname() + ":"+ postgre.port());
 
         } catch (Exception e) {
-            LOGGER.error("No DB 4 u, mf\n" + e);
+            LOGGER.error("No DB 4 u\n" + e);
             return false;
         }
         return true;
@@ -157,7 +154,7 @@ public class ServiceResource {
             LOGGER.info("\u001B[32m" + "FTP deployed successfully:" + "\u001B[0m" + ftp.host() + ":" + ftp.port());
 
         } catch (Exception e) {
-            LOGGER.error("No DB 4 u, mf\n" + e);
+            LOGGER.error("No FTP 4 u\n" + e);
             return false;
         }
         return true;

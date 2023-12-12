@@ -10,6 +10,7 @@
 .logo {
     font-weight: bold;
     margin-left: 10px;
+    font-family: Impact, Charcoal, sans-serif;
 }
   
 .height-35vh {
@@ -29,8 +30,8 @@
 .custom-navbar {
     font-size: 48px;
     text-align: center;
-    color: #f7a969;
-    padding: 10px
+    color: #e47b25;
+    padding-left: 10px
 }
 
 .spinner-border {
@@ -74,4 +75,16 @@
 #tutorial-container {
     height: 90vh;
     overflow-y: scroll;
+}
+
+.customButton {
+    max-width: 200px;
+    margin: 10px;
+}
+
+.buttonRow {
+    width: 100%;
+    justify-content: space-around;
+    padding-left: 150px;
+    padding-right: 150px;
 }

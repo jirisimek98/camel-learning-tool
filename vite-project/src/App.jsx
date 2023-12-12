@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './styles/custom.scss';
-import { Navbar, Nav, Container, Row, Col, Button, Dropdown} from 'react-bootstrap';
+import { Navbar, Nav, Container, Row, Col, Button, Dropdown, Collapse, Card} from 'react-bootstrap';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import './styles/styles.css'
 import CodeEditor from './components/CodeEditor';
@@ -14,9 +14,11 @@ import HttpLogEndpointTutorial from './tutorials/HttpLogEndpointTutorial.mdx';
 import EnrichTutorial from './tutorials/EnrichTutorial.mdx';
 import ProcessorTutorial from './tutorials/ProcessorTutorial.mdx';
 import Playground from './tutorials/Playground.mdx';
+import { FaAngleDown, FaAngleRight } from 'react-icons/fa';
 
 function App() {
   const [javaCode, setJavaCode] = useState('');
+  const [open, setOpen] = useState(false);
 
   const sendJavaCode = async () => {
     try {
@@ -62,41 +64,54 @@ function App() {
                               width="50"
                               height="50"
                           />
-                         {'   Learn Camel'}
+                         {' Learn Camel'}
                       </Navbar.Brand>
                   </Navbar>
               </Col>
           </Row>
           <Row>
-              <Col xs={1} style={{paddingLeft: 0, paddingRight: 0}}>
-              <Navbar bg="light" className="flex-column">
-                  <Nav defaultActiveKey="/playground" className="flex-column">
-                      <Nav.Link href="/playground">Playground</Nav.Link>
-                      <Dropdown>
-                          <Dropdown.Toggle as={Nav.Link}>
-                              Tutorials
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu>
-                              <Dropdown.Item href="/tutorials/kafka">Kafka</Dropdown.Item>
-                              <Dropdown.Item href="/tutorials/httpLog">HTTP Log</Dropdown.Item>
-                              <Dropdown.Item href="/tutorials/httpLogEndpoint">HTTP Log (Endpoint DSL)</Dropdown.Item>
-                              <Dropdown.Item href="/tutorials/enrich">Enrich</Dropdown.Item>
-                              <Dropdown.Item href="/tutorials/processor">Processor</Dropdown.Item>
-                          </Dropdown.Menu>
-                      </Dropdown>
-                  </Nav>
+            <Col xs={1} style={{ paddingLeft: 0, paddingRight: 0}}>
+              <Navbar bg="light" style={{height: '100%'}}>
+                <Nav defaultActiveKey="/playground" className="flex-column">
+                  <Nav.Link href="/playground" className="text-left" style={{ padding: '.5rem 1rem', fontWeight: 'bold', color: 'black' }}>Playground</Nav.Link>
+                  <Card border="0" className="bg-light">
+                    <Card.Header className="p-0 border-0">
+                      <Button
+                        onClick={() => setOpen(!open)}
+                        aria-controls="example-collapse-text"
+                        aria-expanded={open}
+                        variant="link"
+                        className="bg-light w-100 text-dark"
+                        style={{ textDecoration: 'none', border: 'none', color: 'inherit', textAlign: 'left', padding: '.5rem 1rem', fontWeight: 'bold', color: 'black' }}
+                      >
+                        Tutorials {open ? <FaAngleDown /> : <FaAngleRight />}
+                      </Button>
+                    </Card.Header>
+                    <Collapse in={open}>
+                      <div style={{alignItems: "center"}}>
+                        <Nav.Link href="/tutorials/kafka" className="text-left" style={{ padding: '.5rem 2rem' }}>Kafka</Nav.Link>
+                        <Nav.Link href="/tutorials/httpLog" className="text-left" style={{ padding: '.5rem 2rem' }}>HTTP Log</Nav.Link>
+                        <Nav.Link href="/tutorials/httpLogEndpoint" className="text-left" style={{ padding: '.5rem 2rem' }}>HTTP Log (Endpoint DSL)</Nav.Link>
+                        <Nav.Link href="/tutorials/enrich" className="text-left" style={{ padding: '.5rem 2rem' }}>Enrich</Nav.Link>
+                        <Nav.Link href="/tutorials/processor" className="text-left" style={{ padding: '.5rem 2rem' }}>Processor</Nav.Link>
+                      </div>
+                    </Collapse>
+                  </Card>
+                </Nav>
               </Navbar>
-              </Col>
+            </Col>
 
               <Col xs={11}>
                   <Row>
                       <Col xs={8}>
                           <CodeEditor setJavaCode={setJavaCode}/>
-                            <Button onClick={sendJavaCode} style={{ margin: '10px' }}>Submit route</Button>
+                          <Row className='buttonRow'>
+                            <Button className='customButton' onClick={sendJavaCode}>Submit route</Button>
                             <Routes>
-                              <Route path="/tutorials/*" element={<TestButton/>}/>
+                              <Route className='customButton' path="/tutorials/*" element={<TestButton/>}/>
                             </Routes>
-                            <Button variant='danger' onClick={clearContext} style={{ margin: '10px' }}>Clear context</Button>
+                            <Button className='customButton' variant='danger' onClick={clearContext}>Clear context</Button>
+                          </Row>
                           <Container id='terminal-container'>
                               <Terminal/>
                           </Container>

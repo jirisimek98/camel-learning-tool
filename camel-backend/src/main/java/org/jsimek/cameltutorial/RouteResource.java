@@ -42,7 +42,7 @@ public class RouteResource {
             CompilationUnit.Result compilationResult = MultiCompile.compileUnit(compilationUnit);
             Class<?> compiledClass = compilationResult.getClass(className);
             if (compiledClass == null) {
-                return Response.status(Response.Status.BAD_REQUEST).entity("Shit sucks, man...").build();
+                return Response.status(Response.Status.BAD_REQUEST).entity("Compilation failed").build();
             }
 
             RouteBuilder builder = (RouteBuilder) compiledClass.getDeclaredConstructor().newInstance();

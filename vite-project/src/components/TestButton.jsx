@@ -41,7 +41,7 @@ function TestButton() {
         }
       };
 
-    return (<Button onClick={runTests} style={{ margin: '8px' }}>Run tests</Button>);
+    return (<Button onClick={runTests} className='customButton'>Run tests</Button>);
 
 
 }
